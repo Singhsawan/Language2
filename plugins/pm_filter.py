@@ -101,6 +101,7 @@ async def next_page(bot, query):
     else:
         await save_group_settings(query.message.chat.id, 'is_shortlink', False)
         ENABLE_SHORTLINK = False
+        key = f"{message.id}"
     if ENABLE_SHORTLINK == True:
         if settings['button']:
             btn = [
@@ -2515,6 +2516,7 @@ async def auto_filter(client, msg, spoll=False):
         ENABLE_SHORTLINK = False
     pre = 'filep' if settings['file_secure'] else 'file'
     if ENABLE_SHORTLINK == True:
+        key = f"{message.id}"
         if settings["button"]:
             btn = [
                 [
