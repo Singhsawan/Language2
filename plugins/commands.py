@@ -246,6 +246,13 @@ async def start(client, message):
                 protect_content=True
             )
 
+    if pre == "pmfilter":
+        key = file_id
+        search = key.replace("-", " ")
+        offset = await get_search_results(query=search.lower(), offset=0, filter=True, max_results=6)
+        await message.reply_text(text="hello", reply_markup=InlineKeyboardMarkup(btn))
+
+    
     files_ = await get_file_details(file_id)           
     if not files_:
         pre, file_id = ((base64.urlsafe_b64decode(data + "=" * (-len(data) % 4))).decode("ascii")).split("_", 1)
