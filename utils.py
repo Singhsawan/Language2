@@ -1,6 +1,6 @@
 import logging
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid, ChatAdminRequired
-from info import AUTH_CHANNEL, LONG_IMDB_DESCRIPTION, MAX_LIST_ELM, SHORTLINK_URL, SHORTLINK_API, LOG_CHANNEL, GRP_LNK, CHNL_LNK, CUSTOM_FILE_CAPTION, VERIFY, ADMINS, REQ_CHANNEL
+from info import AUTH_CHANNEL, LONG_IMDB_DESCRIPTION, MAX_LIST_ELM, SHORTLINK_URL, SHORTLINK_API, LOG_CHANNEL, TUTORIAL, GRP_LNK, CHNL_LNK, CUSTOM_FILE_CAPTION, VERIFY, ADMINS, REQ_CHANNEL
 from imdb import Cinemagoer 
 import asyncio
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
@@ -512,6 +512,14 @@ async def get_shortlink(chat_id, link):
         except Exception as e:
             logger.error(e)
             return f'https://{URL}/api?api={API}&link={link}'
+
+async def get_tutorial(chat_id):
+    settings = await get_settings(chat_id) #fetching settings for group
+    if 'tutorial' in settings.keys():
+        TUTORIAL_URL = settings['tutorial']
+    else:
+        TUTORIAL_URL = TUTORIAL
+    return TUTORIAL_URL
 
 async def get_verify_shorted_link(link):
     API = SHORTLINK_API
