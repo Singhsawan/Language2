@@ -2568,16 +2568,11 @@ async def auto_filter(client, msg, spoll=False):
                    InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs​", callback_data=f"languages#{search.replace(' ', '_')}#{key}")
                 ]
             )
-
-        else:
-            btn.insert(0, 
-                [
-                   InlineKeyboardButton("sᴇɴᴅ ᴀʟʟ​ !", callback_data=f"send_fall#files#{offset}"),
-                   InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs​", callback_data=f"languages#{search.replace(' ', '_')}#{key}")
-                ]
-            )
     btn.insert(0, [
-        if ENABLE_TUTORIAL == True:
+        InlineKeyboardButton("sᴇɴᴅ ᴀʟʟ​ !", callback_data=f"send_fall#files#{offset}"),
+        InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs​", callback_data=f"languages#{search.replace(' ', '_')}#{key}")       
+    ])       
+    if ENABLE_TUTORIAL == True:
         btn.insert(0, [
         InlineKeyboardButton("Hᴏᴡ ᴛᴏ Dᴏᴡɴʟᴏᴀᴅ⚡", url=await get_tutorial(message.chat.id))
         ])
