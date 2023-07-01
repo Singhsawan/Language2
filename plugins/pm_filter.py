@@ -2577,9 +2577,14 @@ async def auto_filter(client, msg, spoll=False):
                 ]
             )
     btn.insert(0, [
-        InlineKeyboardButton('ʜᴏᴡ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ', url=await get_tutorial(query.message.chat.id))
-    ])
-
+        if ENABLE_TUTORIAL == True:
+        btn.insert(0, [
+        InlineKeyboardButton("Hᴏᴡ ᴛᴏ Dᴏᴡɴʟᴏᴀᴅ⚡", url=await get_tutorial(message.chat.id))
+        ])
+    else:
+        btn.insert(0, [
+        InlineKeyboardButton("Hᴏᴡ ᴛᴏ Dᴏᴡɴʟᴏᴀᴅ⚡", url=TUTORIAL)
+        ])
     if offset != "":
         key = f"{message.chat.id}-{message.id}"
         BUTTONS[key] = search
