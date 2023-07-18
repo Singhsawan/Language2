@@ -9,7 +9,7 @@ from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, get_bad_files
 from database.users_chats_db import db
-from info import CHANNELS, ADMINS, AUTH_CHANNEL, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT, CHNL_LNK, GRP_LNK, REQST_CHANNEL, SUPPORT_CHAT_ID, MAX_B_TN, VERIFY, HOW_TO_VERIFY
+from info import CHANNELS, ADMINS, AUTH_CHANNEL, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT, CHNL_LNK, GRP_LNK, REQST_CHANNEL, SUPPORT_CHAT_ID, MAX_B_TN, VERIFY, HOW_TO_VERIFY, TUTORIAL, IS_TUTORIAL
 from utils import get_settings, get_size, is_subscribed, save_group_settings, temp, verify_user, check_token, check_verification, get_token, send_all
 from database.connections_mdb import active_connection
 import re
@@ -822,28 +822,31 @@ async def shortlink(bot, message):
     await reply.edit_text(f"<b>Successfully added shortlink API for {title}.\n\nCurrent Shortlink Website: <code>{shortlink_url}</code>\nCurrent API: <code>{api}</code></b>")
 
 @Client.on_message(filters.command("set_tutorial"))
-async def set_tutorial_link(client, message):
+async def settutorial(bot, message):
+    userid = message.from_user.id if message.from_user else None
+    if not userid:
+        return await message.reply(f"You are anonymous admin. Turn off anonymous admin and try again this command")
     chat_type = message.chat.type
     if chat_type == enums.ChatType.PRIVATE:
-        await message.reply_text("<b>Please use this command in your group to set tutorial link.</b>")
-        return
+        return await message.reply_text("This Command Work Only in group\n\nTry it in your own group")
     elif chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         grpid = message.chat.id
         title = message.chat.title
     else:
-        return 
-    
+        return
     userid = message.from_user.id
-    user = await client.get_chat_member(grpid, userid)
+    user = await bot.get_chat_member(grpid, userid)
     if user.status != enums.ChatMemberStatus.ADMINISTRATOR and user.status != enums.ChatMemberStatus.OWNER and str(userid) not in ADMINS:
-        await message.reply_text("<b>You don't have access to use this command!</b>")
         return
-    
-    try:
-        tutorial = re.findall("(?P<url>https?://[^\s]+)", message.text)[0]
-    except:
-        await message.reply_text("<b>🛠️ Command Incomplete 🤔\n\n➥Give me a tutorial link along with the command!\n\n📌Example👇\n\n<code>/set_tutorial https://example.com</code>\n\n━━━━━━━━━━━━━━━━━━\n© @J_shree_ram\n</b>")
-        return
-    
-    await save_group_settings(grpid, 'tutorial', tutorial)
-    await message.reply_text(f"<b>📌 sᴜᴄᴄᴇssꜰᴜʟʏ ᴀᴅᴅᴇᴅ ᴛᴜᴛᴏʀɪᴀʟ 🎉\n\nʏᴏᴜʀ ᴛᴜᴛᴏʀɪᴀʟ ʟɪɴᴋ ꜰᴏʀ ɢʀᴏᴜᴘ {title}ɪs 👇\n\n☞{tutorial}\n\n© @J_shree_ram\n</b>")    
+    else:
+        pass
+    if len(message.command) == 1:
+        return await message.reply("<b>Give me a tutorial link along with this command\n\nCommand Usage: /set_tutorial your tutorial link</b>")
+    elif len(message.command) == 2:
+        reply = await message.reply_text("<b>Please Wait...</b>")
+        tutorial = message.command[1]
+        await save_group_settings(grpid, 'tutorial', tutorial)
+        await save_group_settings(grpid, 'is_tutorial', True)
+        await reply.edit_text(f"<b>Successfully Added Tutorial\n\nHere is your tutorial link for your group {title} - <code>{tutorial}</code></b>")
+    else:
+        return await message.reply("<b>You entered Incorrect Format\n\nFormat: /set_tutorial your tutorial link</b>")    
