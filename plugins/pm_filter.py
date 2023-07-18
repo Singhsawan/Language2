@@ -2593,18 +2593,18 @@ async def auto_filter(client, msg, spoll=False):
                    InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs​", callback_data=f"languages#{search.replace(' ', '_')}#{key}")
                 ]
             )
-
-        else:
-            btn.insert(0, 
-                [
-                   InlineKeyboardButton("sᴇɴᴅ ᴀʟʟ​ !", callback_data=f"send_fall#files#{offset}"),
-                   InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs​", callback_data=f"languages#{search.replace(' ', '_')}#{key}")
-                ]
-            )
     btn.insert(0, [
-        InlineKeyboardButton('! ʜᴏᴡ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ !', url=await get_tutorial(chat_id))
+        InlineKeyboardButton("Sᴛᴀʀᴛ Bᴏᴛ", url="https://t.me/Auto_Filter_Tamil_Bot"),
+        InlineKeyboardButton("𝐒𝐞𝐧𝐝 𝐀𝐥𝐥", callback_data=f"send_fall#{pre}#{message.chat.id}-{message.id}#{0}")
     ])
-
+    if ENABLE_TUTORIAL == True:
+        btn.insert(0, [
+        InlineKeyboardButton("! ʜᴏᴡ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ !", url=await get_tutorial(message.chat.id))
+        ])
+    else:
+        btn.insert(0, [
+        InlineKeyboardButton("! ʜᴏᴡ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ !", url=TUTORIAL)
+        ])
     if offset != "":
         key = f"{message.chat.id}-{message.id}"
         BUTTONS[key] = search
