@@ -10,7 +10,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, get_bad_files
 from database.users_chats_db import db
 from info import CHANNELS, ADMINS, AUTH_CHANNEL, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT, CHNL_LNK, GRP_LNK, REQST_CHANNEL, SUPPORT_CHAT_ID, MAX_B_TN, VERIFY, HOW_TO_VERIFY, TUTORIAL, IS_TUTORIAL
-from utils import get_settings, get_size, is_subscribed, save_group_settings, temp, verify_user, check_token, check_verification, get_token, send_all
+from utils import get_settings, get_size, is_subscribed, save_group_settings, temp, verify_user, check_token, check_verification, get_token, send_all, get_tutorial
 from database.connections_mdb import active_connection
 import re
 import json
@@ -253,7 +253,7 @@ async def start(client, message):
             if not await check_verification(client, message.from_user.id) and VERIFY == True:
                 btn = [[
                     InlineKeyboardButton("Vᴇʀɪғʏ", url=await get_token(client, message.from_user.id, f"https://telegram.me/{temp.U_NAME}?start=", file_id)),
-                    InlineKeyboardButton("⁉️ ʜᴏᴡ ᴛᴏ ᴠᴇʀɪғʏ ⁉️", url=HOW_TO_VERIFY)
+                    InlineKeyboardButton("⁉️ ʜᴏᴡ ᴛᴏ ᴠᴇʀɪғʏ ⁉️", url=await get_tutorial(message.chat.id)
                 ]]
                 await message.reply_text(
                     text=script.VERIFY_TXT.format( message.from_user.mention),
@@ -303,7 +303,7 @@ async def start(client, message):
     if not await check_verification(client, message.from_user.id) and VERIFY == True:
         btn = [[
             InlineKeyboardButton("Vᴇʀɪғʏ", url=await get_token(client, message.from_user.id, f"https://telegram.me/{temp.U_NAME}?start=", file_id)),
-            InlineKeyboardButton("⁉️ ʜᴏᴡ ᴛᴏ ᴠᴇʀɪғʏ ⁉️", url=HOW_TO_VERIFY)
+            InlineKeyboardButton("⁉️ ʜᴏᴡ ᴛᴏ ᴠᴇʀɪғʏ ⁉️", url=await get_tutorial(message.chat.id)
         ]]
         await message.reply_text(
             text=script.VERIFY_TXT.format( message.from_user.mention),
