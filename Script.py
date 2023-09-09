@@ -185,7 +185,7 @@ Nᴀᴍᴇ - {}"""
 𝗠𝗲𝘀𝘀𝗮𝗴𝗲 <b>: {}</b>"""
     
     CAPTION = """
-@New_Moviee_hindi {file_name}
+@i_Movieee {file_name}
 
 ❍ sɪᴢᴇ : {file_size}"""
 
