@@ -76,6 +76,7 @@ JOIN_REQS_DB = environ.get("JOIN_REQS_DB", DATABASE_URI)
 
 # Others
 VERIFY = bool(environ.get('VERIFY', True))
+HOW_TO_VERIFY = environ.get('HOW_TO_VERIFY', 'https://t.me/+EYPCnAJ4uUtmY2Nl')
 SHORTLINK_URL = environ.get('SHORTLINK_URL', 'zxlink.in')
 SHORTLINK_API = environ.get('SHORTLINK_API', '4205ff425fade7343f8fd9cc79dce620cac4b01f')
 IS_SHORTLINK = bool(environ.get('IS_SHORTLINK', False))
